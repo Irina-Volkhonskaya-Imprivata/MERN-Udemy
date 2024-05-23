@@ -12,7 +12,7 @@ const ModalOverlay = (props) => {
         <h2>{props.header}</h2>
       </header>
       <form
-        omSubmit={
+        onSubmit={
           props.onSubmit ? props.onSubmit : (event) => event.preventDefault()
         }
       >
@@ -30,6 +30,7 @@ const ModalOverlay = (props) => {
 };
 
 const Modal = (props) => {
+  const nodeRef = React.createRef();
   return (
     <>
       {props.show && <Backdrop onClick={props.onCancel} />}
@@ -39,6 +40,7 @@ const Modal = (props) => {
         unmountOnExit
         timeout={200}
         classNames="modal"
+        nodeRef={nodeRef}
       >
         <ModalOverlay {...props} />
       </CSSTransition>

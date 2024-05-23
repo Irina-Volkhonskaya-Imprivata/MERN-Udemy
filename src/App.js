@@ -10,8 +10,10 @@ import NewPlace from "./places/pages/NewPlace";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import UserPlaces from "./places/pages/UserPlaces";
 
+
 const App = () => {
   return (
+
     <Router>
       <MainNavigation />
       <main>
@@ -29,6 +31,7 @@ const App = () => {
         </Switch>
       </main>
     </Router>
+
   );
 };
 
