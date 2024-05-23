@@ -1,6 +1,6 @@
 import React from "react";
 import UsersList from "../components/UsersList";
-import NewPlace from "../../places/pages/`/NewPlace";
+
 
 const Users = () => {
   const USERS = [
