@@ -2,15 +2,27 @@ import React, { useState } from "react";
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
-import OMap from "../../shared/components/UIElements/Map"
+import OMap from "../../shared/components/UIElements/Map";
 
 import "./PlaceItem.css";
 
 const PlaceItem = (props) => {
   const [showMap, setShowMap] = useState();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const openMapHandler = () => setShowMap(true);
   const closeMapHandler = () => setShowMap(false);
+
+  const showDeleteWarningHandler = () => setShowConfirmModal(true);
+  const cancelDeleteHandler = () => {
+    setShowConfirmModal(false);
+
+  };
+
+  const confirmDeleteHandler = () => {
+    setShowConfirmModal(false);
+    console.log("DELETING...");
+  };
 
   return (
     <>
@@ -23,8 +35,29 @@ const PlaceItem = (props) => {
         footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
       >
         <div className="map-container">
-          <OMap center={props.coordinates} zoom={16}/>
+          <OMap center={props.coordinates} zoom={16} />
         </div>
+      </Modal>
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure?"
+        footerClass="place-item__modal-actions"
+        footer={
+          <>
+            <Button onClick={cancelDeleteHandler} inverse>
+              CANCEL
+            </Button>
+            <Button onClick={confirmDeleteHandler} danger>
+              DELETE
+            </Button>
+          </>
+        }
+      >
+        <p>
+          Dpo you want to proceed and delete this place? Please note that it
+          can't be undone theteafter
+        </p>
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
@@ -41,7 +74,9 @@ const PlaceItem = (props) => {
               VIEW ON MAP
             </Button>
             <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button danger>DELETE</Button>
+            <Button onClick={showDeleteWarningHandler} danger>
+              DELETE
+            </Button>
           </div>
         </Card>
       </li>
