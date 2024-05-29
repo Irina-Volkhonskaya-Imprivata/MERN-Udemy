@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
 import OMap from "../../shared/components/UIElements/Map";
 
 import "./PlaceItem.css";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const PlaceItem = (props) => {
+  const auth = useContext(AuthContext);
   const [showMap, setShowMap] = useState();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -16,7 +18,6 @@ const PlaceItem = (props) => {
   const showDeleteWarningHandler = () => setShowConfirmModal(true);
   const cancelDeleteHandler = () => {
     setShowConfirmModal(false);
-
   };
 
   const confirmDeleteHandler = () => {
@@ -55,7 +56,7 @@ const PlaceItem = (props) => {
         }
       >
         <p>
-          Dpo you want to proceed and delete this place? Please note that it
+          Do you want to proceed and delete this place? Please note that it
           can't be undone theteafter
         </p>
       </Modal>
@@ -69,14 +70,19 @@ const PlaceItem = (props) => {
             <h3>{props.address}</h3>
             <p>{props.description}</p>
           </div>
+
           <div className="place-item__actions">
             <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button>
-            <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button onClick={showDeleteWarningHandler} danger>
-              DELETE
-            </Button>
+            {auth.isLoggedIn && (
+              <>
+                <Button to={`/places/${props.id}`}>EDIT</Button>
+                <Button onClick={showDeleteWarningHandler} danger>
+                  DELETE
+                </Button>
+              </>
+            )}
           </div>
         </Card>
       </li>
