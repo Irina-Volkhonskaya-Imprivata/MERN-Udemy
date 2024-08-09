@@ -1,33 +1,27 @@
-//
-import React, { useRef, useEffect } from "react";
-import "ol/ol.css";
-import Map from "ol/Map";
-import View from "ol/View";
-import TileLayer from "ol/layer/Tile";
-import OSM from "ol/source/OSM";
-import { fromLonLat } from "ol/proj";
-import "./Map.css";
-
-const OMap = (props) => {
+import React, { useRef, useEffect } from 'react';
+ 
+import './Map.css';
+ 
+const Map = props => {
   const mapRef = useRef();
-
+  
   const { center, zoom } = props;
-
+ 
   useEffect(() => {
-    new Map({
+    new window.ol.Map({
       target: mapRef.current.id,
       layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
+        new window.ol.layer.Tile({
+          source: new window.ol.source.OSM()
+        })
       ],
-      view: new View({
-        center: fromLonLat([center.lng, center.lat]),
-        zoom: zoom,
-      }),
+      view: new window.ol.View({
+        center: window.ol.proj.fromLonLat([center.lng, center.lat]),
+        zoom: zoom
+      })
     });
   }, [center, zoom]);
-
+ 
   return (
     <div
       ref={mapRef}
@@ -37,5 +31,5 @@ const OMap = (props) => {
     ></div>
   );
 };
-
-export default OMap;
+ 
+export default Map;
