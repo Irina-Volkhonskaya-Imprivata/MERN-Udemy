@@ -56,19 +56,13 @@ const UpdatePlace = () => {
           },
           true
         );
-      } catch (err) {
-        console.error('Error fetching place:', err);
-      }
+      } catch (err) {}
     };
     fetchPlace();
   }, [sendRequest, placeId, setFormData]);
 
   const placeUpdateSubmitHandler = async event => {
     event.preventDefault();
-    console.log('Sending update request:', {
-      title: formState.inputs.title.value,
-      description: formState.inputs.description.value
-    });
     try {
       await sendRequest(
         `http://localhost:5000/api/places/${placeId}`,
@@ -78,13 +72,12 @@ const UpdatePlace = () => {
           description: formState.inputs.description.value
         }),
         {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token
         }
       );
       history.push('/' + auth.userId + '/places');
-    } catch (err) {
-      console.error('Error updating place:', err);
-    }
+    } catch (err) {}
   };
 
   if (isLoading) {
@@ -140,4 +133,4 @@ const UpdatePlace = () => {
   );
 };
 
-export default UpdatePlace
+export default UpdatePlace;
